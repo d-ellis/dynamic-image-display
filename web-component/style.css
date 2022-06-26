@@ -1,0 +1,31 @@
+body {
+  background-color: #2b303a;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 49vw 49vw;
+  grid-template-rows: 49vh 49vh;
+  grid-column-gap: 1vw;
+  grid-row-gap: 1vh;
+  grid-template-areas:
+    "disp1 disp1"
+    "disp2 disp3";
+}
+
+image-display {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border: 1px solid #bac1b8;
+}
+
+#display1 {
+  grid-area: disp1;
+}
+#display2 {
+  grid-area: disp2;
+}
+#display3 {
+  grid-area: disp3;
+}
