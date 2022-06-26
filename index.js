@@ -14,6 +14,9 @@ async function start() {
   }
 }
 
+/*
+  This function only works when deployed on localhost, and not when deployed on GH Pages
+*/
 async function getImageSrcs() {
   const response = await fetch('./photos/');
   const html = await response.text();
@@ -23,7 +26,15 @@ async function getImageSrcs() {
   for (const match of matches) {
     photos.push(`./photos/${match[1]}`);
   }
-  return photos;
+
+  let json = JSON.stringify(photos);
+  json = [json];
+  const blob = new Blob(json, { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  const link = URL.createObjectURL(blob);
+  a.download = 'images.json';
+  a.href = link;
+  a.click();
 }
 
 function initContainer(containerRef, colSize) {
@@ -56,10 +67,13 @@ async function fillColumns() {
   // Fetch image paths
   const response = await fetch('./images.json');
   const images = await response.json();
-  
+
   let i = 0;
   while (i < images.length) {
     const img = await imagePromise(images[i]);
+    img.addEventListener('click', () => {
+      window.open(img.src);
+    })
     img.classList.add('image-display');
     const best = getBestColumn();
     columns[best].appendChild(img);
