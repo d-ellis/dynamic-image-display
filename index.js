@@ -7,8 +7,7 @@ async function start() {
   const container = document.getElementById('container');
   try {
     initContainer(container, '16rem');
-    const images = await getImageSrcs();
-    await fillColumns(images);
+    await fillColumns();
   } catch (err) {
     console.error(err);
     container.innerHTML = `<h3 class="error">Something went wrong whilst loading the images. Please try reloading to fix the issue.</h3>`
@@ -20,7 +19,7 @@ async function getImageSrcs() {
   const html = await response.text();
   const regex = /"(.+\.jpg)"/g;
   const matches = html.matchAll(regex);
-  photos = [];
+  const photos = [];
   for (const match of matches) {
     photos.push(`./photos/${match[1]}`);
   }
@@ -53,7 +52,11 @@ function initContainer(containerRef, colSize) {
   }
 }
 
-async function fillColumns(images) {
+async function fillColumns() {
+  // Fetch image paths
+  const response = await fetch('./images.json');
+  const images = await response.json();
+  
   let i = 0;
   while (i < images.length) {
     const img = await imagePromise(images[i]);
