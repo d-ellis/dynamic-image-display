@@ -18,7 +18,7 @@ async function start() {
   This function only works when deployed on localhost, and not when deployed on GH Pages
 */
 async function getImageSrcs() {
-  const response = await fetch('./photos/');
+  const response = await fetch('./img/bd/');
   const html = await response.text();
   const regex = /"(.+\.jpg)"/g;
   const matches = html.matchAll(regex);
